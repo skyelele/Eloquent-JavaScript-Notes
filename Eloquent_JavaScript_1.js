@@ -603,3 +603,200 @@ console.log(words.join(". "));
 console.log("LA".repeat(3));
 // --> LALALA
 
+// REST PARAMETERS
+/**
+ * It can be useful for a function to accept any number
+ * of arguments.
+ * For example, Math.max computes the maximum of all
+ * the arguments it is given.
+ * 
+ * To write such a function, you put three dots before
+ * the function's last parameter, like this:
+ */
+
+function max(...numbers) {
+let result = -Infinity;
+for (let number of numbers) {
+    if (number > result) result = number;
+}
+return result;
+}
+
+console.log(max(4, 1, 9, -2));
+// --> 9
+/** 
+ * When such a function is called, 
+ * the rest parameter is bound to an 
+ * array containing all further 
+ * arguments. If there are other 
+ * parameters before it, their 
+ * values aren't part of that array. 
+ * When, as in max, it is the only 
+ * parameter, it will hold all arguments.
+
+You can use a similar three-dot notation 
+to call a function with an array of arguments.
+
+
+*/
+
+let numbers = [5, 1, 7];
+console.log(max(...numbers));
+// --> 7
+
+/** 
+ * This "spreads" out the array into 
+ * the function call, passing its 
+ * elements as separate arguments.
+It is possible to include an array 
+like that along other arguments, as 
+in max(9, ...numbers, 2).
+
+Square bracket array notation similarly 
+allows the triple-dot operator to spread 
+another array into the new array.
+ */
+
+let words = ["never", "fully"];
+console.log("will", ...words, "understand");
+// --> ["will", "never", "fully", "understand"]
+
+/** 
+ * The Math Object
+
+As we've seen, Math is a grab bag of number-related utility functions, such as Math.max, Math.min, and Math.sqrt.
+
+THe Math object is used as a container to group a bunch of
+ related functionality. THere is only one Math object, and it 
+is almost never useful as a value. Rather, it provides a name
+space so that all these functions and values do not have to 
+be global bindings.
+
+Having too many global bindings "pullutes" the namspace. 
+THe more names have been taken, the more likely you are to
+ accidentally overwrite the value of some existing binding. For
+ example, it's not unlikely to want to name something max in one of
+ your programs. Since JS's built-in max function is ticked safely inside
+ the Math object, we don't have to worry about overwriting it.
+
+
+Many languages will stop you, or at least warn you, when you are
+ defining a binding with a name that is already taken. JS does this for
+ bindings you declared with let or const but -- perversely -- not for
+ standard bindings nor for bindings declared with var or function.
+
+Back to the Math object. If you need to do trigonometery, Math can
+ help. It contains cos (cosine), sin (sine), and tan (tangent), as well as
+ their inverse functions, acos, asin, and atan, respectively. THe
+ number pi - or at least the closest approximation that fits in a JS
+ number - is available as Math.PI.
+
+Math.random()
+
+console.log(Math.floor(Math.random() * 10);
+
+Multiplying the random number by 10 gives us a number greater
+ than or equal to 0 and below 10. Since Math.floor rounds down, this
+ expression will produce, with equal chance, any number from 0
+ through 9.
+
+There are also the functions Math.ceil, Math.round, and Math.abs.
+ Math.abs takes the absolute value of a number, meaning it negates
+ negative values but leaves positive ones as they are.
+ */
+
+ /** 
+  * JSON
+
+Because properties only grasp their value, rather than contain it, 
+objects and arrays are stored in the computer's memory as
+ sequences of bits holding the addresses - the place in memory - of
+ their contents. So an array with another array inside of it consists of
+ (at least) one memory region for the inner array, and another for the
+ outer array, containing (among other things) a binary number that
+ represents the position of the inner array.
+
+If you want to save data in a file for later or send it to another
+ computer over the network, you have to somehow convert these
+ tangles of memory addresses to a description that can be stored or
+ sent. You could send over your entire computer memory along with
+ the address of the value you're interested in, I supposee, but that
+ doesn't seem like the best approach.
+
+What we can do is serialize the data. That means it is converted into
+ a flat description. A popular serialization format is called JSON.,
+ which stands for JS object notation. IT is widely used as a data
+ storage and communication format on the web, even in languages
+ other than JavaScript.
+
+JSON looks similar to JS's way of writing arrays and objects, with a
+ few restrictions. All property names ahve to be surrounded by
+ double quotes, and only simple data expressions are allowed - no
+ function calls, bindings, or anything that involes actual computation.
+ Comments are not allowed in JSON.
+  */
+
+{
+    "squirrel": false,
+    "events": ["work", "touched tree", "pizza", "running"]
+}
+
+// JS gives us the functions JSON.stringify and JSON.parse
+// to convert data to and from this format. The first takes
+// such a string and converts it to the value it encodes.
+
+// Abstracting Repitition!
+
+function repeat(n, action) {
+    for (let i = 0; i < n; i++) {
+        action(i);
+    }
+}
+
+repeat(3, console.log);
+// --> 0
+// --> 1
+// --> 2
+
+// We don't have to pass a predefined function to repeat.
+// Often, it is easier to create a function value on the
+// spot instead
+
+let labels = [];
+repeat(5, i => {
+    labels.push(`Unit ${i + 1}`);
+});
+console.log(labels);
+// --> ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
+
+
+/**
+ * Higher Order Functions
+
+Functions that operate on other functions, either by taking them as
+ arguments or by returning them, are called higher-order functions.
+ Since we have already seen that functions are regular values, there is
+ nothing particularly remarkable about the fact that such functions
+ exist.
+
+Higher-order functions allow us to abstract over actions, not just
+ values. They come in several forms, For example, we can have
+ functions that create new functions.
+ */
+
+function greaterThan(n) {
+    return m => m > n;
+}
+let greaterThan10 = greaterThan(10);
+console.log(greaterThan10(11));
+// --> true
+
+
+// And we can have functions that change
+// other functions
+
+function noisy(f) {
+    return (...args) => {
+        console.log("calling with", args);
+    }
+}
