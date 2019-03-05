@@ -584,4 +584,22 @@ console.log(" okay \n ".trim());
  * as arguments.
  */
 
-console.log(String(6));
+console.log(String(6).padStart(3, "0"));
+// --> 006
+
+// You can split a string on every occurrence of another string with split and join it again with join.
+
+let sentence = "Secretarybirds sepecialize in stomping";
+let words = sentence.split(" ");
+console.log(words);
+// --> ["Secretarybirds", "specialize", "in", "stomping"]
+console.log(words.join(". "));
+// --> Secretarybirds. specialize. in. stomping
+
+// A string can be repeated with the repeat method, 
+// which creates a new string containing multiple
+// copies of the original string, glued together.
+
+console.log("LA".repeat(3));
+// --> LALALA
+
